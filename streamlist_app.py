@@ -33,7 +33,7 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_c
 # create a normalised version of the data
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 
-streamlist.stop()
+streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
