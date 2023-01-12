@@ -40,36 +40,22 @@ except URLError as e:
     sytreamlit.error()
     
 def get_fruit_load_list():
-   streamlit.header("1")
    with my_cnx.cursor() as my_cur:
-      streamlit.header("2")
       my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
-      streamlit.header("3")
       return my_cur.fetchall()
 
 # Add a button to load the fruit
 if streamlit.button('Get Fuit Load List'):
    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-   streamlit.header("5")
    my_data_rows = get_fruit_load_list()
-   streamlit.header("6")
    streamlit.dataframe(my_data_rows)
-   streamlit.header("7")
 
-   
+def add_my_fruit(new_fruit):
+   with my_cnx.cursor() as my_cur:
+      my_cur.execute("INSERT INTO FRUIT_LOAD_LIST VALUES ('" + new_fruit + "')")
+      return "Thanks for adding " + new_fruit
    
 streamlit.stop()
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
-
-my_data_rows = my_cur.fetchall()
-streamlit.header("The fruit load list contains:")
-streamlit.dataframe(my_data_rows)
-# present the normalised data in a table.
-streamlit.dataframe(fruityvice_normalized)
-
 
 add_my_fruit = streamlit.text_input('What fruit would you like to add?','Kiwi')
 streamlit.write('Thanks for adding ', add_my_fruit)
